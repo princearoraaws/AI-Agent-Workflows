@@ -82,6 +82,36 @@ VS Code loads `.env` for you when you start an example with `F5`. Most examples 
 python -m dotenv run -- python chapter_04/01_single_agent_multiple_mcp.py
 ```
 
+The examples can use any one of `OPENAI_API_KEY`, `CUSTOM_LLM_API_KEY`, or
+`NVIDIA_API_KEY` without editing chapter code. `OPENAI_API_KEY` uses OpenAI as
+usual. The other two use an OpenAI-compatible Chat Completions endpoint; add
+`PYTHONPATH=.` to `.env` so Python discovers the included compatibility bridge
+before an example starts. If more than one is set, `OPENAI_API_KEY` is used,
+then `CUSTOM_LLM_API_KEY`, then `NVIDIA_API_KEY`.
+
+### NVIDIA NIM for text agents
+
+To use NVIDIA NIM instead of OpenAI for the text-based Agents SDK examples,
+set `NVIDIA_API_KEY`, a NIM chat `OPENAI_DEFAULT_MODEL`, and `PYTHONPATH=.`
+in `.env`. The included `sitecustomize.py` then routes the OpenAI-compatible
+client to `https://integrate.api.nvidia.com/v1`, uses Chat Completions, and
+disables OpenAI trace export. Run terminal examples through `python -m dotenv
+run -- ...` so these variables exist before Python starts.
+
+On Windows, if `dotenv run` resolves `python` outside the active virtual
+environment, use the activated environment's interpreter explicitly:
+
+```powershell
+python -m dotenv run -- "$env:VIRTUAL_ENV\Scripts\python.exe" chapter_02/01_first_agent.py
+```
+
+NIM also supplies embedding, vision, and image-generation models. This global
+bridge covers the shared chat-completions path; examples that call OpenAI's
+different Responses, Realtime, or image-generation interfaces need a small
+adapter to NIM's corresponding endpoint. Explicit `model="gpt-..."` values
+must be replaced with a suitable NIM model ID in the small number of files
+that set one.
+
 ### 6. Run the Code
 
 Run the examples from the repository root, because several of them open files by paths relative to it. For example:
