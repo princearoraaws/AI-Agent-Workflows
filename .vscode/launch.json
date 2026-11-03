@@ -7,6 +7,10 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
             "justMyCode": true,
             "preLaunchTask": "Install requirements",
         },
@@ -23,6 +27,10 @@
                 "8000",
                 "--reload"
             ],
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
             "jinja": true,
             "preLaunchTask": "Install requirements",
         }
